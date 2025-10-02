@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RouteQuest — Auth</title>
+  <style>
+    :root{
+      --bg:#2955a6;
+      --modal-bg: rgba(255,247,240,0.94); 
+      --muted:#6c5b53;
+      --input-bg:#fff;
+      --accent-start:#ff9f2b; 
+      --accent-end:#ff7a00;
+      --pill-bg: rgba(255,245,236,0.8);
+      --shadow: 0 18px 50px rgba(183, 196, 44, 0.45);
+      --radius:16px;
+      --danger:#e11d48;
+      --success:#10b981;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;padding:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      color:#1b1b1b;
+
+      
+      background-image: url('bg.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    
+    .overlay{position:fixed;inset:0;background:linear-gradient(rgba(4,6,10,0.36), rgba(4,6,10,0.36));display:flex;align-items:center;justify-content:center;padding:20px}
+
+    .modal{
+      width:420px;border-radius:18px;padding:18px 18px 22px;box-shadow:var(--shadow);position:relative;
+      color: #2c2a29;
+      background: var(--modal-bg);
+      backdrop-filter: blur(6px) saturate(120%);
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    /* Embedded (iframe) mode: tighter layout for small frames */
+    body.embedded .modal{
+      width:360px;
+      padding:12px 12px 16px;
+      border-radius:12px;
+    }
+    body.embedded .modal h2{font-size:16px}
+    body.embedded input[type="text"], body.embedded input[type="password"]{padding:10px;font-size:13px}
+    body.embedded .actions .btn, body.embedded .actions .btn.ghost{padding:10px;font-size:14px}
+
+    .close{position:absolute;right:14px;top:10px;width:34px;height:34px;border-radius:8px;border:none;background:transparent;cursor:pointer;font-size:18px;color:var(--muted)}
+
+    .modal h2{margin:2px 0 8px 0;font-size:18px}
+    .modal .tabs{display:flex;background:var(--pill-bg);border-radius:12px;padding:6px;gap:6px;margin:10px 0}
+    .tab{flex:1;text-align:center;padding:8px 10px;border-radius:10px;font-weight:700;color:var(--muted);cursor:pointer}
+    .tab.active{background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));color:#1b1b1b}
+
+    label{display:block;font-size:13px;color:var(--muted);margin-top:12px;margin-bottom:6px}
+    input[type="text"], input[type="password"]{
+      width:100%;padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:var(--input-bg);font-size:14px;color:inherit
+    }
+
+    .cred-row{display:flex;gap:8px;align-items:center}
+    .copy-btn{padding:10px;border-radius:10px;border:none;background:transparent;color:var(--muted);cursor:pointer}
+
+    .actions{margin-top:14px;display:flex;gap:10px}
+    .btn{flex:1;padding:12px;border-radius:10px;border:none;cursor:pointer;font-weight:800;color:#fff;background:linear-gradient(90deg,var(--accent-start),var(--accent-end))}
+    .btn.ghost{background:transparent;border:1px solid rgba(0,0,0,0.06);color:var(--muted);font-weight:700}
+
+    .meta{font-size:13px;color:var(--muted);text-align:left;margin-top:10px}
+    .msg{font-size:13px;margin-top:10px}
+    .success{color:var(--success);font-weight:700}
+    .error{color:var(--danger);font-weight:700}
+
+    .field-gap{margin-top:8px}
+
+    @media (max-width:480px){.modal{width:100%;padding:14px}}
+  </style>
+</head>
+<body>
+  <div class="overlay" id="overlay">
+    <div class="modal" role="dialog" aria-labelledby="auth-title">
+      <h2 id="auth-title">RouteQuest Login</h2>
+      <div class="tabs" role="tablist">
+        <div class="tab" id="tab-login" role="tab" aria-selected="true" onclick="switchView('login')">Login</div>
+        <div class="tab active" id="tab-signup" role="tab" aria-selected="false" onclick="switchView('signup')">Sign Up</div>
+      </div>
+
+      
+      <div id="view-login" style="display:none">
+        <label for="login-username">Username</label>
+        <input type="text" id="login-username" placeholder="Enter your username" autocomplete="username" />
+
+        <label for="login-password" class="field-gap">Password</label>
+        <input type="password" id="login-password" placeholder="Enter your password" autocomplete="current-password" />
+
+        <div class="actions">
+          <button class="btn" onclick="handleLogin()">Login</button>  
+        </div>
+
+        <div id="login-msg" class="msg"></div>
+      </div>
+
+      
+      <div id="view-signup">
+        <label for="su-username">Username</label>
+        <div class="cred-row">
+          <input type="text" id="su-username" readonly aria-describedby="su-note" />
+          <button class="copy-btn" onclick="copyUsername()">Copy</button>
+        </div>
+        <div id="su-note" class="meta">We suggest a username — format: <code>user@1234</code></div>
+
+        <label for="su-password" class="field-gap">Password</label>
+        <input type="password" id="su-password" placeholder="Create a strong password" autocomplete="new-password" />
+
+        <div class="actions">
+          <button class="btn ghost" onclick="generateUsername()">Regenerate</button>
+          <button class="btn" onclick="handleSignup()">Create account</button>
+        </div>
+
+        <div id="su-msg" class="msg"></div>
+      </div>
+
+      <div class="meta">By using this demo, credentials are stored locally in your browser (demo only).</div>
+    </div>
+  </div>
+
+  <script>
+    
+
+    function $(id){return document.getElementById(id)}
+
+    function closeModal(){ document.getElementById('overlay').style.display = 'none' }
+
+    function switchView(view){
+      const loginTab = $('tab-login'), signupTab = $('tab-signup')
+      const vLogin = $('view-login'), vSignup = $('view-signup')
+      if(view === 'login'){
+        vLogin.style.display = 'block'
+        vSignup.style.display = 'none'
+        loginTab.classList.add('active'); loginTab.setAttribute('aria-selected','true')
+        signupTab.classList.remove('active'); signupTab.setAttribute('aria-selected','false')
+      } else {
+        vLogin.style.display = 'none'
+        vSignup.style.display = 'block'
+        loginTab.classList.remove('active'); loginTab.setAttribute('aria-selected','false')
+        signupTab.classList.add('active'); signupTab.setAttribute('aria-selected','true')
+      }
+      clearMessages()
+    }
+
+    function clearMessages(){
+      $('su-msg').textContent = ''
+      $('login-msg').textContent = ''
+    }
+
+    function generateUsername(){
+      const digits = Math.floor(1000 + Math.random() * 9000)
+      const username = `user@${digits}`
+      $('su-username').value = username
+      $('su-msg').textContent = 'New username generated — copy or create account.'
+      $('su-msg').className = 'msg'
+    }
+
+    function copyUsername(){
+      const val = $('su-username').value
+      if(!val) return
+      navigator.clipboard?.writeText(val).then(()=>{
+        $('su-msg').textContent = 'Username copied to clipboard.'
+        $('su-msg').className = 'msg success'
+      },()=>{
+        $('su-msg').textContent = 'Copy failed — select and copy manually.'
+        $('su-msg').className = 'msg error'
+      })
+    }
+
+    function getAccounts(){
+      try{return JSON.parse(localStorage.getItem('rq_accounts')||'{}')}catch(e){return{}}
+    }
+    function saveAccounts(obj){localStorage.setItem('rq_accounts', JSON.stringify(obj))}
+
+    function handleSignup(){
+      const username = $('su-username').value.trim()
+      const password = $('su-password').value
+      const msg = $('su-msg')
+      msg.className = 'msg'
+
+      if(!username){ msg.textContent = 'Please generate a username first.'; msg.className='msg error'; return }
+      if(!password || password.length < 6){ msg.textContent = 'Choose a password (min 6 chars).'; msg.className='msg error'; return }
+
+      const accounts = getAccounts()
+      if(accounts[username]){ msg.textContent = 'That username already exists locally. Regenerate.'; msg.className='msg error'; return }
+
+      accounts[username] = password
+      saveAccounts(accounts)
+
+      msg.textContent = 'Account created locally. You can now login.'
+      msg.className = 'msg success'
+
+      setTimeout(()=>{
+        switchView('login')
+        $('login-username').value = username
+        $('login-password').value = ''
+        $('login-msg').textContent = 'Account created — enter your password to login.'
+        $('login-msg').className = 'msg success'
+      },600)
+    }
+
+    function handleLogin(){
+      const username = $('login-username').value.trim()
+      const password = $('login-password').value
+      const msg = $('login-msg')
+      msg.className = 'msg'
+
+      if(!username || !password){ msg.textContent = 'Enter username and password.'; msg.className='msg error'; return }
+
+      const accounts = getAccounts()
+      if(accounts[username] && accounts[username] === password){
+        msg.textContent = 'Login successful — welcome!'
+        msg.className = 'msg success'
+        setTimeout(()=>{ alert('Logged in as ' + username) },300)
+      } else {
+        msg.textContent = 'Invalid username or password.'
+        msg.className = 'msg error'
+      }
+    }
+
+    
+    generateUsername()
+    switchView('login')
+
+    // If loaded with ?embed=1 (inside iframe), apply compact embedded layout
+    (function(){
+      try{
+        const params = new URLSearchParams(location.search)
+        if(params.get('embed') === '1') document.body.classList.add('embedded')
+      }catch(e){}
+    })()
+  </script>
+</body>
+</html>
+
