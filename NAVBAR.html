@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RouteQuest Navbar</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      
+      html, body {
+        height: 100%;
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+        background: #467edf8e;
+      }
+
+      
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0; 
+        background-image: url('bg.jpg');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        filter: blur(2px) saturate(1);
+        transform: translateZ(0); 
+        z-index: -1; 
+      }
+
+      
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        
+        background: linear-gradient(90deg, rgba(255,140,50,0.22), rgba(40,160,120,0.14));
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      
+      .navbar {
+        position: relative;
+        z-index: 2;
+        background: transparent; 
+        backdrop-filter: none;
+      }
+
+      .navbar-brand{font-weight:700;color:#ff7a00}
+      .btn-gradient{background:linear-gradient(90deg,#ff9f2b,#ff7a00);color:#fff;border:none}
+      
+      .hero{
+        min-height:calc(100vh - 72px);
+        display:flex;align-items:center;justify-content:center;position:relative;text-align:center;padding:64px 0 48px;z-index:1;color:#fff
+      }
+      .hero .inner{max-width:980px;margin:0 auto;padding:0 18px}
+      .hero .brand-title{font-size:72px;line-height:0.9;margin:0 0 12px;font-weight:800;color:#ff7a00;text-shadow:0 6px 24px rgba(0,0,0,0.35)}
+      .hero .subtitle{font-size:20px;max-width:900px;margin:0 auto 26px;opacity:0.95}
+      .hero .cta {display:flex;gap:18px;justify-content:center;align-items:center;margin-bottom:28px}
+  .btn-primary-hero{background:linear-gradient(90deg,#ff9f2b,#2f8a4f);border:none;color:#fff;padding:14px 28px;border-radius:999px;font-weight:800;box-shadow:0 12px 40px rgba(255,122,0,0.16);display:inline-flex;align-items:center;gap:12px}
+  .btn-primary-hero svg{opacity:0.98}
+  .btn-primary-hero:hover{transform:translateY(-3px)}
+  .btn-secondary-hero{background:rgba(255,255,255,0.94);color:#2b2b2b;padding:12px 26px;border-radius:999px;border:none;font-weight:700;display:inline-flex;align-items:center;gap:10px}
+  .btn-secondary-hero svg{opacity:0.85}
+
+     
+  .feature-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1100px;margin:18px auto 0;padding:18px;transform:translateY(-20px)}
+      .tile{background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.12);padding:28px;border-radius:14px;color:#fff}
+  .tile h4{margin-bottom:8px;font-weight:700}
+      .tile p{opacity:0.9}
+      @media (max-width:992px){.feature-tiles{grid-template-columns:repeat(1,1fr);max-width:620px}}
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-light shadow-sm">
+      <div class="container">
+        <a class="navbar-brand" href="#">RouteQuest</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="/destinations">Destinations</a></li>
+            <li class="nav-item"><a class="nav-link" href="/plan-route">Plan Route</a></li>
+            <!-- Cost & Carbon is available inside the Plan Journey modal via an inline link -->
+            <li class="nav-item"><a class="nav-link" href="/accommodations">Stay</a></li>
+          </ul>
+          <div class="d-flex">
+            <button class="btn btn-gradient" onclick="openSignup()">Login</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    
+    <section class="hero">
+      <div class="inner">
+        <div class="brand-title">RouteQuest</div>
+        <div class="subtitle">Your intelligent travel companion for discovering the beauty, culture, and heritage of Maharashtra</div>
+        <div class="cta">
+          <button class="btn btn-primary-hero" onclick="openJourneyPlan()">Plan Your Journey</button>
+          <button class="btn btn-secondary-hero" onclick="location.href='#destinations'">Explore Destinations</button>
+        </div>
+
+        <div class="feature-tiles">
+          <div class="tile">
+            <div style="font-size:22px;opacity:0.9;margin-bottom:8px">Smart Route Planning</div>
+            <p>AI-powered route optimization with cost estimation for different transport modes</p>
+          </div>
+          <div class="tile">
+            <div style="font-size:22px;opacity:0.9;margin-bottom:8px">Top Attractions</div>
+            <p>Discover hidden gems and popular tourist spots with detailed guides</p>
+          </div>
+          <div class="tile">
+            <div style="font-size:22px;opacity:0.9;margin-bottom:8px">Trip Planning</div>
+            <p>Complete travel itinerary with accommodation options and carbon footprint tracking</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <style>
+      /* Modal styles for fetched content (no iframe) */
+      .modal-custom .modal-dialog{max-width:720px}
+      .modal-custom .modal-body{padding:0;min-height:320px;max-height:70vh;overflow:auto}
+      .modal-custom .modal-body > .loaded-content{padding:18px}
+    </style>
+
+    
+    <div class="modal fade modal-custom" id="authIframeModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header d-flex align-items-center">
+            <h5 class="modal-title">RouteQuest — Auth</h5>
+            <!-- Inline link to open the Cost & Carbon page inside the same modal (hidden by default) -->
+            <div id="costCarbonWrap" class="ms-3 d-none">
+              <a href="#" id="costCarbonLink" class="link-primary small" onclick="openCostCarbonInModal(); return false;">Cost & Carbon</a>
+            </div>
+            <button id="modalCloseBtn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+      <div id="modal-content-container" class="loaded-content">Content will be loaded here.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Load external page HTML into the modal body (no iframe)
+      function loadModalContent(url){
+        const container = document.getElementById('modal-content-container')
+        if(!container) return
+        container.innerHTML = '<div class="p-3 text-muted">Loading…</div>'
+
+        // If the page is opened directly from the filesystem (file://), many browsers block fetch.
+        // In that case open the requested page in a new tab and show an explanatory message inside the modal.
+        if(window.location.protocol === 'file:'){
+          try{
+            window.open(url, '_blank')
+            container.innerHTML = `
+              <div class="p-3">
+                <div class="text-muted mb-2">The page was opened in a new tab because your browser blocks inline loads when viewing files locally.</div>
+                <div>If you want inline loading inside the modal, run a local server (for example, use the VS Code Live Server extension or run <code>python -m http.server</code> from the project folder) and open the page over http://localhost.</div>
+              </div>`
+          }catch(e){
+            container.innerHTML = `<div class="p-3 text-danger">Unable to open the page in a new tab: ${e.message}</div>`
+          }
+          const modalEl = document.getElementById('authIframeModal')
+          const modal = new bootstrap.Modal(modalEl)
+          modal.show()
+          return
+        }
+
+        // Try fetching the page over HTTP(S).
+        fetch(url).then(r => {
+          if(!r.ok) throw new Error('Network response was not ok')
+          return r.text()
+        }).then(html => {
+          try{
+            const parser = new DOMParser()
+            const doc = parser.parseFromString(html, 'text/html')
+            // Prefer the body content of the loaded page, fall back to full HTML
+            const body = doc.querySelector('body')
+            container.innerHTML = ''
+            if(body){
+              // Optionally strip scripts to avoid double-run; keep markup
+              Array.from(body.querySelectorAll('script')).forEach(s => s.remove())
+              container.appendChild(document.importNode(body, true))
+            } else {
+              container.innerHTML = html
+            }
+          }catch(e){
+            container.innerHTML = '<div class="p-3 text-danger">Failed to parse loaded page.</div>'
+          }
+        }).catch(err => {
+          // Fallback: provide a link to open the page directly if fetch fails (common on file://)
+          container.innerHTML = `
+            <div class="p-3">
+              <div class="text-danger mb-2">Unable to load content via fetch. (${err.message})</div>
+              <div>You can <a href="${url}" target="_blank" rel="noopener">open the page in a new tab</a> or run a local server (Live Server) to enable inline loads.</div>
+            </div>`
+        })
+
+        const modalEl = document.getElementById('authIframeModal')
+        const modal = new bootstrap.Modal(modalEl)
+        modal.show()
+      }
+
+  function openSignup(){ loadModalContent('signup.html?embed=1') }
+  function openJourneyPlan(){ loadModalContent('cost-carbon.html') }
+  function openCostCarbonInModal(){ loadModalContent('cost-carbon.html') }
+
+      // Ensure the close button reliably hides modal (handles cases where data-bs-dismiss may not work)
+      (function(){
+        const closeBtn = document.getElementById('modalCloseBtn')
+        const modalEl = document.getElementById('authIframeModal')
+        if(closeBtn && modalEl){
+          closeBtn.addEventListener('click', function(){
+            try{
+              const inst = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl)
+              inst.hide()
+            }catch(e){
+              // fallback: remove 'show' classes
+              modalEl.classList.remove('show')
+              modalEl.style.display = 'none'
+            }
+          })
+        }
+      })()
+    </script>
+
+  </body>
+</html>
