@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cost & Carbon Estimator — RouteQuest</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+      
+      :root{--accent:#ff8b2d;--muted:#6b7280;--card:#ffffff;--bg:linear-gradient(180deg,#fbfbfd,#f4f6fb)}
+      html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+      body{background:var(--bg);color:#111}
+
+      /* Hero */
+      .rq-hero{background:linear-gradient(90deg,rgba(255,139,45,0.06),rgba(59,130,246,0.03));padding:3.2rem 0;border-bottom:1px solid rgba(16,24,40,0.04)}
+      .rq-hero h1{font-size:2.05rem;font-weight:700;margin:0}
+      .rq-hero p{margin:.45rem 0 0;color:var(--muted)}
+
+      /* Container */
+      .rq-main{max-width:1100px;margin:1.25rem auto;padding:1rem}
+      .rq-card{background:var(--card);border-radius:12px;padding:1.25rem;border:1px solid rgba(16,24,40,0.04);box-shadow:0 10px 30px rgba(16,24,40,0.04)}
+
+      /* Layout */
+      .rq-grid{display:grid;grid-template-columns:1fr 360px;gap:1rem}
+      @media (max-width:990px){ .rq-grid{grid-template-columns:1fr} }
+
+      /* Inputs */
+      .section-title{font-weight:700;margin-bottom:.25rem}
+      .muted{color:var(--muted)}
+      .small-help{font-size:.9rem;color:var(--muted)}
+
+      /* Results panel */
+      .result-amount{font-size:1.35rem;font-weight:700}
+      .result-metric{color:var(--muted);font-size:.9rem}
+      .badge-accent{background:rgba(255,139,45,0.12);color:var(--accent);padding:.35rem .6rem;border-radius:999px;font-weight:600}
+
+      /* Buttons */
+      .btn-primary-rq{background:var(--accent);border-color:var(--accent)}
+
+      /* Subtle animations */
+      .fade-in{animation:fadeIn 360ms ease both}
+      @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    </style>
+  </head>
+  <body>
+
+    <header class="rq-hero">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-lg-8">
+            <h1>Cost & Carbon Estimator</h1>
+            <p class="muted">Quickly estimate per-person cost and CO₂ emissions for trips — conservative defaults you can override.</p>
+          </div>
+          <div class="col-12 col-lg-4 text-lg-end mt-3 mt-lg-0">
+            <span class="badge-accent">RouteQuest</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="rq-main">
+      <div class="rq-card">
+        <div class="rq-grid">
+          <!-- Left: inputs -->
+          <section class="p-3 fade-in">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <div class="section-title">Trip details</div>
+                <div class="small-help">Provide travellers, mode and distance. Use custom cost when you have local fare data.</div>
+              </div>
+              <div class="text-end muted">Estimates only</div>
+            </div>
+
+            <div class="row gx-2 gy-3">
+              <div class="col-sm-6">
+                <label class="form-label">Travellers</label>
+                <input id="people" type="number" min="1" value="1" class="form-control">
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label">Transport mode</label>
+                <select id="mode" class="form-select">
+                  <option value="car">Car</option>
+                  <option value="bus">Bus</option>
+                  <option value="train">Train</option>
+                  <option value="flight">Flight</option>
+                </select>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">Origin</label>
+                <input id="origin" class="form-control" placeholder="City or address (optional)">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Destination</label>
+                <input id="destination" class="form-control" placeholder="City or address (optional)">
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">Distance (km)</label>
+                <input id="distance" class="form-control" placeholder="e.g. 150.5" type="number" min="0" step="0.1">
+                <div class="small-help mt-1">If you don't know the distance, use a map or approximate between cities.</div>
+              </div>
+
+              <div class="col-md-8">
+                <label class="form-label">Per-km cost source</label>
+                <select id="costSource" class="form-select">
+                  <option value="default">Typical defaults</option>
+                  <option value="web">Search web</option>
+                  <option value="custom">Custom per-km cost</option>
+                </select>
+              </div>
+              <div id="customCostRow" class="col-md-4 d-none">
+                <label class="form-label">Custom cost (per km)</label>
+                <input id="customCost" class="form-control" placeholder="2.5">
+              </div>
+
+              <div class="col-12 d-flex gap-2 mt-2">
+                <button id="estimateBtn" class="btn btn-primary-rq btn-lg">Estimate</button>
+                <button id="webSearchBtn" class="btn btn-outline-secondary">Search costs</button>
+                <button id="copyBtn" class="btn btn-outline-secondary">Copy</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Right: results -->
+          <aside class="p-3" style="border-left:1px solid rgba(16,24,40,0.03);">
+            <div class="section-title">Results</div>
+            <div class="small-help mb-3">Clear, actionable numbers for your trip.</div>
+
+            <div id="results" class="d-none">
+              <div class="mb-3">
+                <div class="result-metric">Distance</div>
+                <div id="outDistance" class="result-amount">—</div>
+              </div>
+
+              <div class="mb-3">
+                <div class="result-metric">Cost per person</div>
+                <div id="outCostPerson" class="result-amount">—</div>
+              </div>
+
+              <div class="mb-3">
+                <div class="result-metric">Total cost</div>
+                <div id="outCostTotal" class="result-amount">—</div>
+              </div>
+
+              <hr />
+
+              <div class="mb-2">
+                <div class="result-metric">Emission factor</div>
+                <div id="outFactor" class="muted">—</div>
+              </div>
+
+              <div class="mb-3">
+                <div class="result-metric">CO₂ per person (kg)</div>
+                <div id="outCO2Person" class="result-amount">—</div>
+              </div>
+
+              <div class="mb-3">
+                <div class="result-metric">Total CO₂ (kg)</div>
+                <div id="outCO2Total" class="result-amount">—</div>
+              </div>
+
+              <div class="small-help mt-2 mb-1" id="resultSummary"></div>
+            </div>
+
+            <div id="emptyState" class="text-center muted">
+              <div style="font-size:3rem;margin-bottom:.4rem">📍</div>
+              <div>Enter trip details and press <strong>Estimate</strong></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // Defaults and factors
+      const emissionFactors = { car: {min:0.12, max:0.18, default:0.15}, bus: {min:0.05, max:0.08, default:0.065}, train: {min:0.035, max:0.045, default:0.04}, flight: {min:0.09, max:0.2, default:0.15} };
+      const costDefaults = { car: 2.5, bus: 1.0, train: 0.5, flight: 6.0 };
+
+      // Elements
+      const modeEl = document.getElementById('mode');
+      const costSourceEl = document.getElementById('costSource');
+      const customCostRow = document.getElementById('customCostRow');
+
+      if (costSourceEl) costSourceEl.addEventListener('change', () => {
+        customCostRow.classList.toggle('d-none', costSourceEl.value !== 'custom');
+      });
+
+      document.getElementById('webSearchBtn').addEventListener('click', () => {
+        const mode = modeEl ? modeEl.value : 'car';
+        const q = encodeURIComponent(`${mode} fare per km cost`);
+        window.open(`https://www.google.com/search?q=${q}`, '_blank');
+      });
+
+      document.getElementById('estimateBtn').addEventListener('click', () => {
+        const people = Math.max(1, parseInt(document.getElementById('people').value || '1'));
+        const mode = modeEl ? modeEl.value : 'car';
+        let distance = parseFloat(document.getElementById('distance').value);
+        if (isNaN(distance) || distance <= 0) { alert('Please provide a positive distance (km).'); return; }
+
+        let perKmCost = costDefaults[mode] || 1.0;
+        if (costSourceEl && costSourceEl.value === 'custom') {
+          const v = parseFloat(document.getElementById('customCost').value);
+          if (!isNaN(v) && v >= 0) perKmCost = v;
+        }
+
+        const costPerPerson = perKmCost * distance;
+        const totalCost = costPerPerson * people;
+
+        const factor = emissionFactors[mode] ? emissionFactors[mode].default : 0.12;
+        const co2PerPerson = factor * distance;
+        const co2Total = co2PerPerson * people;
+
+        // Render
+        document.getElementById('outDistance').textContent = `${distance.toFixed(2)} km`;
+        document.getElementById('outCostPerson').textContent = `${costPerPerson.toFixed(2)}`;
+        document.getElementById('outCostTotal').textContent = `${totalCost.toFixed(2)}`;
+        document.getElementById('outFactor').textContent = `${factor.toFixed(3)} kg CO2/km/person`;
+        document.getElementById('outCO2Person').textContent = `${co2PerPerson.toFixed(2)} kg`;
+        document.getElementById('outCO2Total').textContent = `${co2Total.toFixed(2)} kg`;
+
+        document.getElementById('resultSummary').textContent = `Mode: ${mode.toUpperCase()} · People: ${people} · Cost/km: ${perKmCost}`;
+        document.getElementById('results').classList.remove('d-none');
+        document.getElementById('emptyState').classList.add('d-none');
+      });
+
+      document.getElementById('copyBtn').addEventListener('click', async () => {
+        const text = document.getElementById('resultSummary').textContent + '\n'
+          + 'Distance: ' + (document.getElementById('outDistance').textContent||'') + '\n'
+          + 'Cost per person: ' + (document.getElementById('outCostPerson').textContent||'') + '\n'
+          + 'Total cost: ' + (document.getElementById('outCostTotal').textContent||'') + '\n'
+          + 'CO2 per person: ' + (document.getElementById('outCO2Person').textContent||'') + '\n'
+          + 'Total CO2: ' + (document.getElementById('outCO2Total').textContent||'');
+        try { await navigator.clipboard.writeText(text); alert('Copied results to clipboard'); }
+        catch (e) { alert('Copy failed — please copy manually'); }
+      });
+    </script>
+  </body>
+</html>
