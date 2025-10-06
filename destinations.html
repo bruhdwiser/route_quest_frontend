@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Maharashtra Explorer — Destinations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial; background:#fff8f2}
+      .hero{padding:48px 0;text-align:center}
+      .card-img-top{height:200px;object-fit:cover;border-top-left-radius:12px;border-top-right-radius:12px}
+      .section-title{margin:36px 0 18px;text-align:center}
+      .best-time{font-size:12px;padding:6px 10px;border-radius:999px;background:#fff3e0;color:#a65a00;border:1px solid rgba(166,90,0,0.06)}
+      .tag-placeholder{display:inline-block;background:#eef6f1;color:#0b6b44;padding:6px 10px;border-radius:999px;margin-right:6px;margin-bottom:6px}
+      .container-cards{max-width:1100px;margin:0 auto}
+    </style>
+  </head>
+  <body>
+
+    <header class="hero">
+      <div class="container">
+        <h1 style="font-weight:800;">Discover Maharashtra — From City Lights to Coastal Delights</h1>
+        <p class="text-muted">Explore curated destinations across Maharashtra: metropolitan culture, ancient heritage, misty hill stations, spiritual cities and sun-kissed coasts.</p>
+      </div>
+    </header>
+
+    <main class="container container-cards">
+
+      <!-- Metro Cities -->
+      <h2 class="section-title">Metro Cities — Cultural & Economic Hubs</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <img src="mumbai.jpg" class="card-img-top" alt="Mumbai">
+            <div class="card-body">
+              <h5 class="card-title">Mumbai</h5>
+              <p class="card-text text-muted">The financial capital and Bollywood hub of India.</p>
+              <div class="mb-2">
+                <span class="best-time">Best time: Oct–Mar</span>
+                <button class="btn btn-sm btn-outline-primary ms-2" onclick="showBestTime('Mumbai')">When to visit</button>
+                <a class="btn btn-sm btn-primary ms-2" href="mumbai_plan.html">Plan</a>
+              </div>
+              <div id="mumbai-tags">Top attractions:
+                <div style="margin-top:8px">
+                    <span class="tag-placeholder">Chhatrapati Shivaji Terminus (CST)</span>
+                    <span class="tag-placeholder">Gateway of India</span>
+                    <span class="tag-placeholder">Marine Drive</span>
+                    <span class="tag-placeholder">Elephanta Caves</span>
+                    <span class="tag-placeholder">Sanjay Gandhi National Park</span>
+                    <span class="tag-placeholder">Hanging Gardens</span>
+                    <span class="tag-placeholder">Juhu Beach</span>
+                    <span class="tag-placeholder">Siddhivinayak Temple</span>
+                    <span class="tag-placeholder">Haji Ali Dargah</span>
+                    <span class="tag-placeholder">Chhatrapati Shivaji Maharaj Vastu Sangrahalaya (CSMVS)</span>
+                    <span class="tag-placeholder">Bandra-Worli Sea Link</span>
+                    <span class="tag-placeholder">Colaba Causeway</span>
+                    <span class="tag-placeholder">Dharavi</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <img src="Pune Heritage.jpg" class="card-img-top" alt="Pune">
+            <div class="card-body">
+              <h5 class="card-title">Pune</h5>
+              <p class="card-text text-muted">A cultural and educational center, blending history and modernity.</p>
+              <div class="mb-2">
+                <span class="best-time">Best time: Oct–Feb</span>
+                <button class="btn btn-sm btn-outline-primary ms-2" onclick="showBestTime('Pune')">When to visit</button>
+                <a class="btn btn-sm btn-primary ms-2" href="pune_plan.html">Plan</a>
+              </div>
+              <div id="pune-tags">Top attractions:
+                <div style="margin-top:8px">
+                  <span class="tag-placeholder">Shaniwar Wada</span>
+                  <span class="tag-placeholder">Aga Khan Palace</span>
+                  <span class="tag-placeholder">Sinhagad Fort</span>
+                  <span class="tag-placeholder">Dagdusheth Halwai Ganpati</span>
+                  <span class="tag-placeholder">Raja Dinkar Kelkar Museum</span>
+                  <span class="tag-placeholder">Osho International Meditation Resort</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <img src="aurangabad.jpg" class="card-img-top" alt="Aurangabad">
+            <div class="card-body">
+              <h5 class="card-title">Aurangabad</h5>
+              <p class="card-text text-muted">Gateway to UNESCO heritage sites and ancient history.</p>
+              <div class="mb-2">
+                <span class="best-time">Best time: Oct–Feb</span>
+                <button class="btn btn-sm btn-outline-primary ms-2" onclick="showBestTime('Aurangabad')">When to visit</button>
+                <a class="btn btn-sm btn-primary ms-2" href="aurangabad_plan.html">Plan</a>
+              </div>
+              <div id="aurangabad-tags">Top attractions:
+                <div style="margin-top:8px">
+                  <span class="tag-placeholder">Bibi Ka Maqbara</span>
+                  <span class="tag-placeholder">Daulatabad Fort</span>
+                  <span class="tag-placeholder">Panchakki</span>
+                  <span class="tag-placeholder">Aurangabad Caves</span>
+                  <span class="tag-placeholder">Grishneshwar Temple</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     
+      <!-- Hill Stations -->
+      <h2 class="section-title">Hill Stations — Misty Escapes</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <img src="📌 Mahabaleshwar.jpg" class="card-img-top" alt="Mahabaleshwar">
+            <div class="card-body">
+              <h5 class="card-title">Mahabaleshwar</h5>
+              <p class="card-text text-muted">Lush valleys, strawberry farms and panoramic viewpoints.</p>
+              <div class="mb-2">
+                <span class="best-time">Best time: Oct–May</span>
+                <button class="btn btn-sm btn-outline-primary ms-2" onclick="showBestTime('Mahabaleshwar')">When to visit</button>
+                <a class="btn btn-sm btn-primary ms-2" href="mahabaleshwar_plan.html">Plan</a>
+              </div>
+              <div id="mahabaleshwar-tags">Top attractions:
+                <div style="margin-top:8px">
+                  <span class="tag-placeholder">Venna Lake</span>
+                  <span class="tag-placeholder">Arthur's Seat</span>
+                  <span class="tag-placeholder">Wilson Point</span>
+                  <span class="tag-placeholder">Mapro Garden</span>
+                  <span class="tag-placeholder">Elephant's Head Point</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <img src="lonavla.jpg" class="card-img-top" alt="Lonavla">
+            <div class="card-body">
+              <h5 class="card-title">Lonavla</h5>
+              <p class="card-text text-muted">Scenic hill station with waterfalls, forts, and lush green valleys.</p>
+              <div class="mb-2">
+                <span class="best-time">Best time: Jun–Sep (monsoon) & Oct–Feb</span>
+                <button class="btn btn-sm btn-outline-primary ms-2" onclick="showBestTime('Lonavla')">When to visit</button>
+                <a class="btn btn-sm btn-primary ms-2" href="lonavla_plan.html">Plan</a>
+              </div>
+              <div id="lonavla-tags">Top attractions:
+                <div style="margin-top:8px">
+                  <span class="tag-placeholder">Tiger's Leap</span>
+                  <span class="tag-placeholder">Bhushi Dam</span>
+                  <span class="tag-placeholder">Karla Caves</span>
+                  <span class="tag-placeholder">Lohagad Fort</span>
+                  <span class="tag-placeholder">Rajmachi Fort</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <img src="Matheran Hill Station, India.jpg" class="card-img-top" alt="Matheran">
+            <div class="card-body">
+              <h5 class="card-title">Matheran</h5>
+              <p class="card-text text-muted">Vehicle-free hill station with toy train views and peaceful trails.</p>
+              <div class="mb-2">
+                <span class="best-time">Best time: Oct–May</span>
+                <button class="btn btn-sm btn-outline-primary ms-2" onclick="showBestTime('Matheran')">When to visit</button>
+                <a class="btn btn-sm btn-primary ms-2" href="matheran_plan.html">Plan</a>
+              </div>
+              <div id="matheran-tags">Top attractions:
+                <div style="margin-top:8px">
+                  <span class="tag-placeholder">Panorama Point</span>
+                  <span class="tag-placeholder">Charlotte Lake</span>
+                  <span class="tag-placeholder">Echo Point</span>
+                  <span class="tag-placeholder">One Tree Hill</span>
+                  <span class="tag-placeholder">Toy Train Ride</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Religious Pilgrimage -->
+      <h2 class="section-title">Religious Pilgrimage</h2>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="card shadow-sm">
+            <img src="Trimbakeshwar Temple.jpg" class="card-img-top" alt="Nashik">
+            <div class="card-body">
+              <h5 class="card-title">Nashik</h5>
+              <p class="card-text text-muted">Famous for vineyards and the Kumbh Mela hosted on the banks of the Godavari.</p>
+              <div class="mb-2">
+                <span class="best-time">Best time: Oct–Feb</span>
+                <button class="btn btn-sm btn-outline-primary ms-2" onclick="showBestTime('Nashik')">When to visit</button>
+                <a class="btn btn-sm btn-primary ms-2" href="nashik_plan.html">Plan</a>
+              </div>
+              <div id="nashik-tags">Top attractions:
+                <div style="margin-top:8px">
+                  <span class="tag-placeholder">Trimbakeshwar Temple</span>
+                  <span class="tag-placeholder">Sula Vineyards</span>
+                  <span class="tag-placeholder">Panchavati (Ramkund)</span>
+                  <span class="tag-placeholder">Kalaram Temple</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card shadow-sm">
+            <img src="shirdi.jpg" class="card-img-top" alt="Shirdi">
+            <div class="card-body">
+              <h5 class="card-title">Shirdi</h5>
+              <p class="card-text text-muted">A revered pilgrimage town dedicated to Sai Baba.</p>
+              <div class="mb-2">
+                <span class="best-time">Best time: Oct–Feb</span>
+                <button class="btn btn-sm btn-outline-primary ms-2" onclick="showBestTime('Shirdi')">When to visit</button>
+                <a class="btn btn-sm btn-primary ms-2" href="shirdi_plan.html">Plan</a>
+              </div>
+              <div id="shirdi-tags">Top attractions:
+                <div style="margin-top:8px">
+                  <span class="tag-placeholder">Sai Baba Samadhi Mandir</span>
+                  <span class="tag-placeholder">Dwarkamai</span>
+                  <span class="tag-placeholder">Chavadi</span>
+                  <span class="tag-placeholder">Sai Heritage Museum</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coastal Paradises -->
+      <h2 class="section-title">Coastal Paradises</h2>
+      <div class="row g-4 mb-5">
+        <div class="col-md-6">
+          <div class="card shadow-sm">
+            <img src="alibaug.jpg" class="card-img-top" alt="Alibaug">
+            <div class="card-body">
+              <h5 class="card-title">Alibaug</h5>
+              <p class="card-text text-muted">A short ferry or drive from Mumbai — sandy beaches and relaxed coastal life.</p>
+              <div class="mb-2">
+                <span class="best-time">Best time: Oct–Feb</span>
+                <button class="btn btn-sm btn-outline-primary ms-2" onclick="showBestTime('Alibaug')">When to visit</button>
+                <a class="btn btn-sm btn-primary ms-2" href="alibaug_plan.html">Plan</a>
+              </div>
+              <div id="alibaug-tags">Top attractions:
+                <div style="margin-top:8px">
+                  <span class="tag-placeholder">Kolaba Fort</span>
+                  <span class="tag-placeholder">Alibaug Beach</span>
+                  <span class="tag-placeholder">Kihim Beach</span>
+                  <span class="tag-placeholder">Varsoli Beach</span>
+                  <span class="tag-placeholder">Mandwa Ferry</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card shadow-sm">
+            <img src="kokan.jpg" class="card-img-top" alt="Konkan Coast">
+            <div class="card-body">
+              <h5 class="card-title">Konkan Coast & Coastal Paradises</h5>
+              <p class="card-text text-muted">Pristine beaches, hidden coves, and the tranquil Konkan coastline.</p>
+              <div class="mb-2">
+                <span class="best-time">Best time: Oct–Mar</span>
+                <button class="btn btn-sm btn-outline-primary ms-2" onclick="showBestTime('Konkan Coast')">When to visit</button>
+                <a class="btn btn-sm btn-primary ms-2" href="konkan_plan.html">Plan</a>
+              </div>
+              <div id="konkan-tags">Top attractions:
+                <div style="margin-top:8px">
+                  <span class="tag-placeholder">Ganpatipule</span>
+                  <span class="tag-placeholder">Tarkarli (Diving & Beaches)</span>
+                  <span class="tag-placeholder">Ratnagiri (Thiba & Beaches)</span>
+                  <span class="tag-placeholder">Harihareshwar</span>
+                  <span class="tag-placeholder">Guhagar</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mb-5">
+        <p class="text-muted">Tell me which tourist attractions you'd like to add for each destination and I'll insert them. Example: for Mumbai add "Gateway of India, Marine Drive, Elephanta Caves".</p>
+      </div>
+
+    </main>
+
+    <!-- Best time modal -->
+    <div class="modal fade" id="bestTimeModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="bestTimeTitle">Best time to visit</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="bestTimeBody">
+            ...
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const bestTimes = {
+        'Mumbai': 'October to March is ideal: pleasant weather, many festivals and outdoor sightseeing. Monsoon (June–Sept) offers lush scenery but heavy rains can disrupt travel.',
+        'Pune': 'October to February — cool, dry and comfortable for sightseeing and outdoor activities.',
+        'Aurangabad': 'October to February — cooler and pleasant for visiting Ajanta & Ellora; summers are very hot.',
+        'Mahabaleshwar': 'October to May — cooler months are pleasant; monsoon is beautiful but trails can be slippery.',
+        'Lonavla': 'Monsoon (June–September) shows the area at its greenest; October–February is great for sightseeing.',
+        'Matheran': 'October to May — avoid heavy monsoon days for safer trails; the monsoon also makes the hills very scenic.',
+        'Nashik': 'October to February — comfortable and perfect for vineyard visits and city touring.',
+        'Shirdi': 'October to February — cooler months are more comfortable for pilgrimage crowds.',
+        'Alibaug': 'October to February — beach weather is pleasant; monsoon brings rough seas but lush scenery.',
+        'Konkan Coast': 'October to March is ideal for beaches and water activities; monsoon is heavy but dramatic for nature lovers.'
+      }
+
+      function showBestTime(place){
+        const title = document.getElementById('bestTimeTitle')
+        const body = document.getElementById('bestTimeBody')
+        title.textContent = `Best time to visit — ${place}`
+        body.textContent = bestTimes[place] || 'Best time information not available.'
+        const modalEl = document.getElementById('bestTimeModal')
+        const modal = new bootstrap.Modal(modalEl)
+        modal.show()
+      }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
