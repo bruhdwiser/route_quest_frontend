@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mahabaleshwar — Plan Your Trip — RouteQuest</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial; background:#fff8f2}
+      .sidebar{border-right:1px solid rgba(0,0,0,0.06);min-height:80vh}
+      .destination-item{cursor:pointer;padding:12px;border-radius:8px}
+      .destination-item:hover{background:#fff}
+      .active-dest{background:linear-gradient(90deg,#fffbf5,#fff);box-shadow:0 6px 20px rgba(255,122,0,0.06)}
+      .pill{display:inline-block;background:#eef6f1;color:#0b6b44;padding:6px 10px;border-radius:999px;margin-right:6px;margin-bottom:6px}
+      .eat-pill{display:inline-block;background:#fff4e6;color:#9a4118;padding:5px 9px;border-radius:999px;margin-right:6px;margin-bottom:6px;border:1px solid rgba(0,0,0,0.04);font-size:0.9em}
+  .attraction-inline{background:#ffffff;border:1px solid #f3f3f3;border-radius:8px;padding:12px;margin-bottom:14px;position:relative;z-index:50}
+      .attraction-item{padding:10px;border-bottom:1px dashed #f0f0f0}
+      .attraction-item:last-child{border-bottom:none}
+      .attraction-search{max-width:420px}
+      .section-title{font-weight:700;margin-top:6px}
+      .map-placeholder{background:#e9f4f0;height:320px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#0b6b44}
+    </style>
+  </head>
+  <body>
+
+    <div class="container py-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 style="font-weight:800">Mahabaleshwar — Plan Your Visit</h2>
+        <a href="destinations.html" class="btn btn-outline-secondary">Back to Destinations</a>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-8 p-3">
+          <div class="card shadow-sm p-4">
+            <div class="d-flex gap-4">
+              <div style="flex:1">
+                <h3 id="destTitle">Mahabaleshwar</h3>
+                <div class="mb-2">
+                  <div class="text-muted small">Explore key attractions and quick facts below</div>
+                </div>
+
+                <!-- Inline attractions panel (searchable) -->
+                <div id="attractionPanel" class="attraction-inline" style="display:none">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div class="fw-semibold">All attractions in Mahabaleshwar</div>
+                    <div class="d-flex align-items-center">
+                      <input id="attractionSearch" class="form-control form-control-sm attraction-search me-2" placeholder="Search attractions..." />
+                      <button id="closeAttractionPanel" class="btn btn-sm btn-outline-secondary">Close</button>
+                    </div>
+                  </div>
+                  <div id="attractionListInline"></div>
+                </div>
+                <p id="destSignificance" class="text-muted">Mahabaleshwar is a scenic hill station known for viewpoints, strawberry farms and pleasant weather — ideal for nature walks and short treks.</p>
+
+                <div class="mb-4">
+                  <div class="section-title">Popular tourist attractions</div>
+                  <div id="destAttractions" style="margin-top:12px"></div>
+                </div>
+
+                 <div class="container py-3">
+    <div class="mb-3">
+      <div class="section-title">Must-try foods & where to try — Quick picks</div>
+    </div>
+
+    <div class="area-card">
+      <div class="fw-semibold mb-2">Local Picks</div>
+      <div>
+        <span class="pill">Strawberries & cream — Local farms</span>
+        <span class="pill">Puran Poli — Traditional sweets</span>
+      </div>
+    </div>
+
+  </div>
+
+                <div class="mb-4">
+                  <div class="section-title">Rules & regulations (visiting tips)</div>
+                  <ul id="destRules">
+                    <li>Respect nature trails and avoid littering.</li>
+                    <li>Carry warm clothes for early mornings/evenings.</li>
+                  </ul>
+                </div>
+
+                <div class="d-flex gap-2">
+                  <button id="addItinerary" class="btn btn-primary">Add all to Itinerary</button>
+                  <a href="scripts/generate-mahabaleshwar-mst.html" target="_blank" class="btn btn-outline-secondary">View distance MST</a>
+                </div>
+              </div>
+
+              <div style="width:320px">
+                <div class="map-placeholder mb-3" id="mapPlaceholder">Map preview (use Google Maps API to enable)</div>
+                <div>
+                  <small class="text-muted">Quick info</small>
+                  <div class="d-flex justify-content-between mt-2">
+                    <div>
+                      <div class="text-muted small">Best time</div>
+                      <div id="destBestTime" style="font-weight:700">Oct–May</div>
+                    </div>
+                    <div>
+                      <div class="text-muted small">Avg stay</div>
+                      <div id="destAvgStay" style="font-weight:700">1–3 days</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="card mt-3 p-3 shadow-sm" id="hoursCompact">
+                  <div class="fw-semibold">Opening Hours</div>
+                  <div class="text-muted small mb-2">Key attractions</div>
+                  <div>
+                    <div class="mb-2"><strong>Viewpoints & parks</strong><div class="text-muted small">Mostly open in daytime</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 p-3">
+          <!-- Places to visit dropdown (populated from data/{city}-attractions.json) -->
+          <div class="mb-3">
+            <div class="dropdown">
+              <button class="btn btn-outline-primary dropdown-toggle w-100" type="button" id="placesDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                Places to visit
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="placesDropdownBtn" id="placesDropdownMenu" style="max-height:320px;overflow:auto"></ul>
+            </div>
+          </div>
+
+          <div class="card shadow-sm p-3 mt-3">
+            <h6>Visitor advice</h6>
+            <ul>
+              <li>Pack for cool evenings and enjoy short treks carefully.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Simple client-side data loader: list destinations from our existing destinations page data.
+      const destinations = [
+        {id:'mumbai', title:'Mumbai', best:'Oct–Mar', avgStay:'2–3 days'},
+        {id:'pune', title:'Pune', best:'Oct–Feb', avgStay:'1–2 days'},
+        {id:'aurangabad', title:'Aurangabad', best:'Oct–Feb', avgStay:'1–2 days'},
+        {id:'mahabaleshwar', title:'Mahabaleshwar', best:'Oct–May', avgStay:'1–3 days'},
+        {id:'lonavla', title:'Lonavla', best:'Jun–Sep & Oct–Feb', avgStay:'1 day'},
+        {id:'matheran', title:'Matheran', best:'Oct–May', avgStay:'1 day'},
+        {id:'nashik', title:'Nashik', best:'Oct–Feb', avgStay:'1–2 days'},
+        {id:'shirdi', title:'Shirdi', best:'Oct–Feb', avgStay:'1 day'},
+        {id:'alibaug', title:'Alibaug', best:'Oct–Feb', avgStay:'1–2 days'},
+        {id:'konkan', title:'Konkan Coast', best:'Oct–Mar', avgStay:'2–5 days'}
+      ]
+
+      const destList = document.getElementById('destList')
+      const nearbyList = document.getElementById('nearbyList')
+      const destAttractions = document.getElementById('destAttractions')
+      const destTitle = document.getElementById('destTitle')
+      const destSignificance = document.getElementById('destSignificance')
+      const destBestTime = document.getElementById('destBestTime')
+      const destAvgStay = document.getElementById('destAvgStay')
+
+      function makeDestItem(d){
+        const el = document.createElement('div')
+        el.className = 'destination-item mb-2'
+        el.textContent = d.title
+        el.onclick = () => selectDestination(d.id)
+        return el
+      }
+
+      destinations.forEach(d => destList && destList.appendChild(makeDestItem(d)))
+
+      function selectDestination(id){
+        const d = destinations.find(x=>x.id===id)
+        if(!d) return
+        destTitle.textContent = d.title
+        destBestTime.textContent = d.best
+        destAvgStay.textContent = d.avgStay
+        const significanceMap = {
+          'mahabaleshwar': 'Mahabaleshwar is a scenic hill station known for viewpoints, strawberry farms and pleasant weather.'
+        }
+        destSignificance.textContent = significanceMap[id] || ''
+
+        const eateriesMap = {}
+
+        fetch(`data/${id}-attractions.json`).then(r=>r.json()).then(js=>{
+          destAttractions.innerHTML = ''
+          js.spots.slice(0,8).forEach(s=>{
+            const block = document.createElement('div')
+            block.style.padding = '10px'
+            block.style.marginBottom = '8px'
+            block.style.borderBottom = '1px solid #f6f6f6'
+
+            const title = document.createElement('div')
+            title.style.fontWeight = 600
+            title.textContent = s.name
+            block.appendChild(title)
+
+            const eatWrap = document.createElement('div')
+            eatWrap.style.marginTop = '6px'
+            const eats = eateriesMap[s.id] || []
+            if(eats.length){
+              eats.forEach(eat => {
+                const ep = document.createElement('span')
+                ep.className = 'eat-pill'
+                ep.textContent = eat
+                eatWrap.appendChild(ep)
+              })
+            } else {
+              const none = document.createElement('span')
+              none.className = 'text-muted small'
+              none.textContent = 'Local cafes and street food nearby.'
+              eatWrap.appendChild(none)
+            }
+            block.appendChild(eatWrap)
+
+            destAttractions.appendChild(block)
+          })
+
+          const inline = document.getElementById('attractionListInline')
+          inline.innerHTML = ''
+          js.spots.forEach(s => {
+            const it = document.createElement('div')
+            it.className = 'attraction-item'
+            it.innerHTML = `<div style="font-weight:600">${s.name}</div><div class='text-muted small' style='margin-top:6px'>A local attraction worth visiting.</div>`
+            inline.appendChild(it)
+          })
+
+          const search = document.getElementById('attractionSearch')
+          if(search){
+            search.oninput = function(){
+              const q = this.value.trim().toLowerCase()
+              Array.from(inline.children).forEach(ch => {
+                const txt = ch.textContent.toLowerCase()
+                ch.style.display = q && !txt.includes(q) ? 'none' : ''
+              })
+            }
+          }
+
+          const closePanelBtn = document.getElementById('closeAttractionPanel')
+          if(closePanelBtn){
+            closePanelBtn.onclick = function(){
+              const panel = document.getElementById('attractionPanel')
+              panel.style.display = 'none'
+            }
+          }
+
+          const placesMenu = document.getElementById('placesDropdownMenu')
+          if(placesMenu){
+            placesMenu.innerHTML = ''
+            js.spots.forEach(s => {
+              const li = document.createElement('li')
+              const a = document.createElement('a')
+              a.className = 'dropdown-item'
+              a.href = '#'
+              a.textContent = s.name
+              a.onclick = (ev) => {
+                ev.preventDefault()
+                const panel = document.getElementById('attractionPanel')
+                panel.style.display = 'block'
+                panel.style.maxHeight = '60vh'
+                panel.style.overflow = 'auto'
+                document.getElementById('attractionSearch').value = s.name
+                Array.from(document.getElementById('attractionListInline').children).forEach(ch => {
+                  const txt = ch.textContent.toLowerCase()
+                  ch.style.display = txt.includes(s.name.toLowerCase()) ? '' : 'none'
+                  if(txt.includes(s.name.toLowerCase())) ch.scrollIntoView({behavior:'smooth', block:'center'})
+                })
+                try{ const dd = bootstrap.Dropdown.getOrCreateInstance(document.getElementById('placesDropdownBtn')); dd.hide(); }catch(e){}
+              }
+              li.appendChild(a)
+              placesMenu.appendChild(li)
+            })
+          }
+
+          nearbyList.innerHTML = ''
+          js.spots.slice(0,5).forEach(s=>{
+            const sampleEat = (eateriesMap[s.id] && eateriesMap[s.id][0]) ? ` — ${eateriesMap[s.id][0]}` : ''
+            const row = document.createElement('div')
+            row.innerHTML = `<div style="padding:8px 0;border-bottom:1px solid #f0f0f0"><strong>${s.name}</strong><div class='text-muted small'>${sampleEat}</div></div>`
+            nearbyList.appendChild(row)
+          })
+        }).catch(e=>{
+          destAttractions.innerHTML = '<div class="text-muted">No attractions file found.</div>'
+          nearbyList.innerHTML = ''
+        })
+      }
+
+      // preselect Mahabaleshwar
+      selectDestination('mahabaleshwar')
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
